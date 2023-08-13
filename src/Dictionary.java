@@ -64,13 +64,4 @@ public class Dictionary {
             "Щасливий", "Сумний", "Веселий", "Радісний", "Нудний"
     };
 
-//    public static boolean containsWord(String word) {
-//        for (String dictWord : WORDS) {
-//            if (dictWord.equalsIgnoreCase(word)) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
 }

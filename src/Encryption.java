@@ -35,7 +35,7 @@ public class Encryption {
                 if (selectionNumber == 1) {
                     System.out.print("Введіть крок для шифрування: ");
                     int shift = scanner.nextInt();
-                    scanner.nextLine(); // Считываем newline
+                    scanner.nextLine();
 
                     String encryptedContent = encryptFile(filePath, shift);
                     System.out.print("Введіть шлях для збереження зашифрованого файлу: ");
