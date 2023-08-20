@@ -17,7 +17,7 @@ public class Encryption {
         int selectionNumber = 0;
         while (selectionNumber != 1 && selectionNumber != 2) {
             System.out.println("Щоб шифрувати файл, натисніть \"1\":");
-            System.out.println("Щоб автоматично розшифрувати файл, натисніть \"2\":");
+            System.out.println("Щоб розшифрувати файл, натисніть \"2\":");
 
             selectionNumber = scanner.nextInt();
             scanner.nextLine();
@@ -43,11 +43,33 @@ public class Encryption {
                     saveToFile(encryptedFilePath, encryptedContent);
                     System.out.println("Файл успішно зашифрований та збережений.");
                 } else if (selectionNumber == 2) {
-                    String decryptedContent = autoDecryptFile(filePath);
-                    System.out.print("Введіть шлях для збереження автоматично дешифрованого файлу: ");
-                    String decryptedFilePath = scanner.nextLine();
-                    saveToFile(decryptedFilePath, decryptedContent);
-                    System.out.println("Файл успішно автоматично дешифрований та збережений.");
+                        System.out.println("Дешифрувати файл за допомою кроку натисніть \"1\":");
+                        System.out.println("Дешифрувати файл автоматично натисніть \"2\":");
+                        int decryptSelectionNumber = 0;
+                        while (decryptSelectionNumber != 1 && decryptSelectionNumber != 2) {
+                            decryptSelectionNumber = scanner.nextInt();
+                        if (decryptSelectionNumber == 1) {
+                            System.out.print("Введіть крок для шифрування: ");
+                            int shift = scanner.nextInt();
+                            scanner.nextLine();
+                            String encryptedContent = decryptFileThroughStep(filePath, shift);
+                            System.out.print("Введіть шлях для збереження зашифрованого файлу: ");
+
+                            String encryptedFilePath = scanner.nextLine();
+                            saveToFile(encryptedFilePath, encryptedContent);
+                            System.out.println("Файл успішно дешифровано та збережений.");
+                        } else if (decryptSelectionNumber == 2) {
+                            String decryptedContent = autoDecryptFile(filePath);
+                            System.out.print("Введіть шлях для збереження автоматично дешифрованого файлу: ");
+                            scanner.nextLine();
+                            String decryptedFilePath = scanner.nextLine();
+                            saveToFile(decryptedFilePath, decryptedContent);
+                            System.out.println("Файл успішно автоматично дешифровано та збережений.");
+                        }
+                        if (decryptSelectionNumber != 1 && decryptSelectionNumber != 2) {
+                            System.out.println("Неправильне число. Будь ласка, введіть 1 або 2.");
+                        }
+                    }
                 }
             } else {
                 System.out.println("Неправильне розширення файлу. Підтримується лише .txt");
@@ -92,6 +114,20 @@ public class Encryption {
 
         int bestShift = findRightStep(sb.toString());
         return caesarCipher(sb.toString(), -bestShift);
+    }
+    public static String decryptFileThroughStep(String filePath, int step) {
+        StringBuilder sb = new StringBuilder();
+        String str;
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            while ((str = bufferedReader.readLine()) != null) {
+                sb.append(str);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return caesarCipher(sb.toString(), -step);
     }
 
     public static int findRightStep(String text) {
